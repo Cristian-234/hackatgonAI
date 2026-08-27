@@ -3,85 +3,137 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Knowledge Nexus LATAM</title>
+    <title>Knowledge Nexus LATAM — Inteligencia Institucional Conectada</title>
     <link rel="stylesheet" href="/web/styles.css">
   </head>
   <body>
     <header class="topbar">
       <div>
-        <p class="eyebrow">Hackathon Peru 2026</p>
+        <p class="eyebrow">Hackathon Internacional Perú 2026 — Reto Educación</p>
         <h1>Knowledge Nexus LATAM</h1>
       </div>
-      <div class="status">
-        <span class="dot"></span>
-        MVP funcional
+      <div class="topbar-actions">
+        <div class="status">
+          <span class="dot"></span>
+          Sistema Integral V2.0
+        </div>
+        <button id="exportButton" class="btn-secondary" title="Generar informe imprimible">📄 Exportar Informe</button>
       </div>
     </header>
 
     <main class="layout">
       <aside class="sidebar">
         <section class="panel">
-          <h2>Consulta</h2>
-          <label for="needSelect">Necesidad institucional</label>
-          <select id="needSelect"></select>
+          <h2>Entrada de Consulta</h2>
+          
+          <div class="input-type-toggle">
+            <button id="btnModePredefined" class="tab-btn active">Necesidad Oficial</button>
+            <button id="btnModeCustom" class="tab-btn">Consulta Libre</button>
+          </div>
+
+          <div id="predefinedContainer">
+            <label for="needSelect">Necesidad institucional (Data V1.0)</label>
+            <select id="needSelect"></select>
+          </div>
+
+          <div id="customContainer" style="display: none;">
+            <label for="customInput">Pregunta / Consulta del Evaluador</label>
+            <textarea id="customInput" rows="3" placeholder="Ej: monitoreo de calidad del agua con sensores IoT y telemetría..."></textarea>
+            <div class="quick-chips">
+              <span class="chip" data-query="monitoreo cardiovascular mediante wearables y ecg en tiempo real">Cardiovascular & Wearables</span>
+              <span class="chip" data-query="predicción y prevención de deserción estudiantil con analítica">Deserción & Analítica</span>
+              <span class="chip" data-query="calidad del agua y gestión ambiental de cuencas con sensores">Agua & Sensores</span>
+              <span class="chip" data-query="modelos de optimización y riesgo crediticio en mercados financieros">Riesgo Financiero</span>
+            </div>
+          </div>
 
           <div class="controls">
-            <label for="topRange">Resultados: <strong id="topValue">12</strong></label>
+            <label for="topRange">Conexiones a recuperar: <strong id="topValue">12</strong></label>
             <input id="topRange" type="range" min="6" max="24" value="12">
           </div>
 
           <fieldset>
-            <legend>Modo</legend>
+            <legend>Estrategia de Priorización</legend>
             <label class="radio">
               <input type="radio" name="mode" value="balanced" checked>
-              Balanceado
+              Balanceado (Multidisciplinario)
             </label>
             <label class="radio">
               <input type="radio" name="mode" value="ranking">
-              Ranking global
+              Ranking global por score
             </label>
           </fieldset>
 
-          <button id="runButton">Descubrir conexiones</button>
+          <button id="runButton" class="btn-primary">Descubrir Conexiones</button>
         </section>
 
         <section class="panel metrics">
-          <h2>Indicadores</h2>
+          <h2>Indicadores de Auditoría</h2>
           <dl id="metrics"></dl>
         </section>
       </aside>
 
       <section class="workspace">
+        <nav class="view-tabs">
+          <button class="view-tab active" data-tab="connections">🔗 Conexiones & Grafo</button>
+          <button class="view-tab" data-tab="compound">💡 Oportunidad Compuesta</button>
+          <button class="view-tab" data-tab="benchmark">📊 Benchmark & Evaluación Técnica</button>
+        </nav>
+
         <section class="hero">
           <div>
-            <p class="eyebrow">Flujo demostrable</p>
-            <h2 id="sourceTitle">Selecciona una necesidad</h2>
-            <p id="sourceMeta">El sistema conectara proyectos, tesis, investigadores, capacidades, asignaturas y publicaciones con evidencia trazable.</p>
+            <p class="eyebrow" id="heroEyebrow">Flujo Demostrable End-to-End</p>
+            <h2 id="sourceTitle">Selecciona o escribe una necesidad</h2>
+            <p id="sourceMeta">El sistema conecta proyectos, tesis, investigadores, capacidades, asignaturas y publicaciones con trazabilidad estricta a Data V1.0.</p>
           </div>
         </section>
 
-        <section class="filters" id="filters"></section>
+        <!-- Pestaña 1: Conexiones y Grafo -->
+        <div id="tabContentConnections" class="tab-pane active">
+          <section class="filters" id="filters"></section>
 
-        <section class="graph-panel">
-          <div class="graph-head">
-            <div>
-              <p class="eyebrow">Grafo de conocimiento</p>
-              <h2>Relaciones inferidas y explícitas</h2>
+          <section class="graph-panel">
+            <div class="graph-head">
+              <div>
+                <p class="eyebrow">Knowledge Graph Visual</p>
+                <h2>Grafo de Relaciones Institucionales</h2>
+              </div>
+              <div class="legend">
+                <span><i class="line inferred"></i>Inferida (Semántica)</span>
+                <span><i class="line explicit"></i>Explícita (Estructural Data V1.0)</span>
+              </div>
             </div>
-            <div class="legend">
-              <span><i class="line inferred"></i>Inferida</span>
-              <span><i class="line explicit"></i>Explícita</span>
-            </div>
-          </div>
-          <svg id="graph" viewBox="0 0 900 430" role="img" aria-label="Grafo de conocimiento institucional"></svg>
-        </section>
+            <svg id="graph" viewBox="0 0 900 430" role="img" aria-label="Grafo de conocimiento institucional"></svg>
+          </section>
 
-        <section class="content-grid">
-          <div class="results" id="results"></div>
-          <aside class="detail" id="detail">
-            <p class="empty">Selecciona una conexion para ver evidencia, explicacion y oportunidad.</p>
-          </aside>
-        </section>
+          <section class="content-grid">
+            <div class="results" id="results"></div>
+            <aside class="detail" id="detail">
+              <p class="empty">Selecciona una conexión para inspeccionar la evidencia, fragmentos y trazabilidad exacta.</p>
+            </aside>
+          </section>
+        </div>
+
+        <!-- Pestaña 2: Oportunidad Compuesta -->
+        <div id="tabContentCompound" class="tab-pane">
+          <section class="compound-panel" id="compoundView">
+            <p class="empty">Ejecuta una consulta para sintetizar la iniciativa estratégica interdisciplinaria.</p>
+          </section>
+        </div>
+
+        <!-- Pestaña 3: Benchmark & Evaluación -->
+        <div id="tabContentBenchmark" class="tab-pane">
+          <section class="benchmark-panel" id="benchmarkView">
+            <div class="bench-head">
+              <h2>Métricas de Desempeño y Estudio de Ablación</h2>
+              <button id="runBenchBtn" class="btn-secondary">▶ Ejecutar Benchmark en Vivo</button>
+            </div>
+            <div id="benchResults" class="bench-body">
+              <p class="loading">Cargando métricas de validación...</p>
+            </div>
+          </section>
+        </div>
+
       </section>
     </main>
 

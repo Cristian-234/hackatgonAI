@@ -23,7 +23,6 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.serve_file(WEB_DIR / "index.html")
             return
         if parsed.path == "/api/needs":
-            importlib.reload(knowledge_nexus)
             self.send_json({"needs": knowledge_nexus.available_needs()})
             return
         if parsed.path == "/api/connect":
@@ -32,8 +31,29 @@ class DashboardHandler(BaseHTTPRequestHandler):
             top = int(query.get("top", ["12"])[0])
             balanced = query.get("mode", ["balanced"])[0] != "ranking"
             try:
-                importlib.reload(knowledge_nexus)
                 payload = knowledge_nexus.connect_need(need_id, top_k=top, balanced=balanced)
+                self.send_json(payload)
+            except Exception as exc:
+                import traceback
+                traceback.print_exc()
+                self.send_json({"error": str(exc)}, status=500)
+            return
+        if parsed.path == "/api/query":
+            query = parse_qs(parsed.query)
+            query_text = query.get("q", [""])[0]
+            top = int(query.get("top", ["12"])[0])
+            balanced = query.get("mode", ["balanced"])[0] != "ranking"
+            try:
+                payload = knowledge_nexus.connect_custom_query(query_text, top_k=top, balanced=balanced)
+                self.send_json(payload)
+            except Exception as exc:
+                import traceback
+                traceback.print_exc()
+                self.send_json({"error": str(exc)}, status=500)
+            return
+        if parsed.path == "/api/benchmark":
+            try:
+                payload = knowledge_nexus.run_benchmark()
                 self.send_json(payload)
             except Exception as exc:
                 import traceback
@@ -74,6 +94,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
 def main() -> None:
     host = "127.0.0.1"
     port = 8765
+    print("[1/2] Indexando entidades y precargando base de conocimiento en memoria...")
+    kb = knowledge_nexus.get_knowledge_base()
+    print(f"[2/2] {len(kb['entities'])} entidades indexadas con éxito. Servidor listo.")
     server = ThreadingHTTPServer((host, port), DashboardHandler)
     print(f"Knowledge Nexus dashboard listo en http://{host}:{port}")
     server.serve_forever()

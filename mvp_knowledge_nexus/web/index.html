@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Knowledge Nexus LATAM</title>
+    <link rel="stylesheet" href="/web/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Hackathon Peru 2026</p>
+        <h1>Knowledge Nexus LATAM</h1>
+      </div>
+      <div class="status">
+        <span class="dot"></span>
+        MVP funcional
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <h2>Consulta</h2>
+          <label for="needSelect">Necesidad institucional</label>
+          <select id="needSelect"></select>
+
+          <div class="controls">
+            <label for="topRange">Resultados: <strong id="topValue">12</strong></label>
+            <input id="topRange" type="range" min="6" max="24" value="12">
+          </div>
+
+          <fieldset>
+            <legend>Modo</legend>
+            <label class="radio">
+              <input type="radio" name="mode" value="balanced" checked>
+              Balanceado
+            </label>
+            <label class="radio">
+              <input type="radio" name="mode" value="ranking">
+              Ranking global
+            </label>
+          </fieldset>
+
+          <button id="runButton">Descubrir conexiones</button>
+        </section>
+
+        <section class="panel metrics">
+          <h2>Indicadores</h2>
+          <dl id="metrics"></dl>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Flujo demostrable</p>
+            <h2 id="sourceTitle">Selecciona una necesidad</h2>
+            <p id="sourceMeta">El sistema conectara proyectos, tesis, investigadores, capacidades, asignaturas y publicaciones con evidencia trazable.</p>
+          </div>
+        </section>
+
+        <section class="filters" id="filters"></section>
+
+        <section class="graph-panel">
+          <div class="graph-head">
+            <div>
+              <p class="eyebrow">Grafo de conocimiento</p>
+              <h2>Relaciones inferidas y explícitas</h2>
+            </div>
+            <div class="legend">
+              <span><i class="line inferred"></i>Inferida</span>
+              <span><i class="line explicit"></i>Explícita</span>
+            </div>
+          </div>
+          <svg id="graph" viewBox="0 0 900 430" role="img" aria-label="Grafo de conocimiento institucional"></svg>
+        </section>
+
+        <section class="content-grid">
+          <div class="results" id="results"></div>
+          <aside class="detail" id="detail">
+            <p class="empty">Selecciona una conexion para ver evidencia, explicacion y oportunidad.</p>
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <script src="/web/app.js"></script>
+  </body>
+</html>
